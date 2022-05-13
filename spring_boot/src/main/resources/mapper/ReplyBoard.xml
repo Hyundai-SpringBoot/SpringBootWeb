@@ -3,27 +3,27 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.jino.mapper.ReplyBoard">
+<mapper namespace="com.syys.mapper.ReplyBoard">
 
-	<select id="list" resultType="com.jino.domain.ReplyVO">
-		select * from tbl_reply
+	<select id="list" resultType="com.syys.domain.ReplyVO">
+		select * from reply
 		where bno = #{bno}
 		order by rno desc
 	</select>
 
 	<insert id="create">
-		insert into tbl_reply( rno , bno, replytext, replyer)
-		values(tbl_reply_seq.nextval , #{bno}, #{replytext}, #{replyer})
+		insert into reply( rno , bno, replytext, mid)
+		values(reply_seq.nextval , #{bno}, #{replytext}, #{mid})
 	</insert>
 
 	<update id="update">
-		update tbl_reply
+		update reply
 		set replytext = #{replytext}, updatedate = sysdate
 		where rno=#{rno}
 	</update>
 
 	<delete id="delete">
-		delete from tbl_reply
+		delete from reply
 		where rno=#{rno}
 	</delete>
 </mapper>

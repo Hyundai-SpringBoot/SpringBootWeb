@@ -9,7 +9,7 @@ public class ReplyVO {
 	private int rno;
 	private int bno;
 	private String replytext;
-	private String replyer;
+	private String mid;
 	private Date regdate;
 	private Date updatedate;
 
