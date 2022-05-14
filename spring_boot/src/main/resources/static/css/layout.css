@@ -1,0 +1,24 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  background-color: #fafafa;
+}
+.main-container {
+  display: flex;
+  flex-direction: column;
+  align-content: center;
+  flex-wrap: wrap;
+  width: 500px;
+  margin: 200px auto;
+  text-align:center;
+  background-color: #fff;
+  border: 1px solid #dbdbdb;
+}
+.boardlist li{
+	background-color:#fafafa;
+	list-style:none;
+	text-align:left;
+	
+}

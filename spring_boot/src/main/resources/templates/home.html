@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<script type="text/javascript" src="js/board.js"></script>
+<div class="main-container">
+
+<th:block th:replace="~{common/layout::setContent(~{this::content})}">
+<th:block th:fragment="content">    
+   </div>
+   
+   
+   <!--게시글  목록 시작 -->
+				<div class='row'>
+					<div class="col-lg-12">
+						<div class="panel panel-default">
+							<div class="panel-heading">
+								<i class="fa fa-comments fa-fw"></i> 댓글
+								<button id='addReplyBtn' class='btn add_ss mr0 pull-right'>
+									댓글작성</button>
+							</div>
+							<!--댓글 목록 리스트 -->
+							<div class="panel-body">
+								<ul class="chat">
+									<li>
+										<div>
+											<strong>user00</strong> <small>2018-01-01 13:13</small>
+										</div>
+										<p>good</p>
+									</li>
+								</ul>
+							</div>
+						</div>
+					</div>
+				</div>
+				<script th:inline="javascript">
+				$(function(){
+					var bnoValue=1;
+						//댓글 목록 show
+				function showList(){	
+					console.log("showList()");
+				    boardService.getList({bno:bnoValue}, function(list) {
+				    	var str="" ;
+				    	if(list == null || list.length == 0){
+				    		replyUL.html("");
+				    		return;
+				    	}
+				      for (var i = 0, len = list.length || 0; i < len; i++) {
+				    	console.log(list[i]);
+				    	str +="<li data-bno='"+list[i].bno+"'>";
+				        str +="  <div><div>["+list[i].mid+"]"; 
+				        str +="   "+boardService.displayTime(list[i].rdate);+"</div>";
+				        str +="    <p>"+list[i].content+"</p></div></li>";
+			
+				      }
+				      replyUL.html(str);		 
+				    });
+				    
+				}
+				showList();	
+				});
+				</script>
+				<!--댓글 목록 끝 -->
+<!-- 게시물 쓰기 시작 -->
+
+    <div class="card-header">
+        게시물 쓰기
+    </div>
+    <div class="card-body">
+        <div>
+            <form id="boardInsertForm">
+               
+                <div class="input-group">
+                    <div class="input-group-prepend"><span class="input-group-text">content</span></div>
+                    <textarea name="content" class="form-control"></textarea>
+                </div>
+               
+                <div class="input-group">
+                    <div class="input-group-prepend"><span class="input-group-text">mid</span></div>
+                    <input type="text" name="mid" class="form-control" value="user" readonly>
+                </div>
+               
+                <div class="input-group">
+                    <div class="input-group-prepend"><span class="input-group-text">img</span></div>
+                    <input type="file" class="form-control" name="img">
+                </div>
+                   
+                <div class="mt-3">
+                    <a href="javascript:createBoard()" class="btn btn-info btn-sm mr-2">POST /board/create</a>
+                </div>
+            </form>
+            <script th:inline="javascript">
+                function createBoard() {
+                    const content = $("#boardInsertForm [name=content]").val();
+                    const mid = $("#boardInsertForm [name=mid]").val();
+                    const img = document.querySelector("#boardInsertForm [name=img]").files[0];
+                   
+                    //Multipart/form-data
+                   	console.log(content);
+                    console.log(mid);
+                    console.log(img);
+                    const formData = new FormData();
+                    formData.append("content", content);
+                    formData.append("mid", mid);
+                    if(img) {
+                        formData.append("img", img);
+                    }//end if
+                   
+                    $.ajax({
+                        url: "[(@{/board/create})]",
+                        headers: {Authorization:`Bearer ${sessionStorage.getItem("jwt")}`},
+                        method: "post",
+                        data: formData,
+                        processData: false,
+                        contentType: false,
+                        cache: false
+                    }).done((data) => {
+                        console.log(data);
+                    });
+                }
+            </script>
+        </div>
+    </div>
+
+<!-- 게시물 쓰기 끝 -->
+ 
+<!-- 게시물 수정 시작 -->
+<div class="card m-2">
+    <div class="card-header">
+        게시물 수정
+    </div>
+    <div class="card-body">
+        <div>
+            <form id="boardUpdateForm">
+                <div class="input-group">
+                    <div class="input-group-prepend"><span class="input-group-text">bno</span></div>
+                    <input type="text" name="bno" class="form-control">
+                </div>          
+                <div class="input-group">
+                    <div class="input-group-prepend"><span class="input-group-text">content</span></div>
+                    <textarea name="content" class="form-control"></textarea>
+                </div>
+               
+                <div class="input-group">
+                    <div class="input-group-prepend"><span class="input-group-text">img</span></div>
+                    <input type="file" class="form-control" name="img">
+                </div>
+                   
+                <div class="mt-3">
+                    <a href="javascript:updateBoard()" class="btn btn-info btn-sm mr-2">POST /board/update</a>
+                </div>
+            </form>
+            <script th:inline="javascript">
+                function updateBoard() {
+                    const bno = $("#boardUpdateForm [name=bno]").val();
+                    const content = $("#boardUpdateForm [name=content]").val();
+                    const img = document.querySelector("#boardUpdateForm [name=img]").files[0];
+                   
+                    //Multipart/form-data
+                    const formData = new FormData();
+                    formData.append("bno", bno);
+                    formData.append("content", content);
+                    if(img) {
+                        formData.append("img", img);
+                    }
+                   
+                    $.ajax({
+                        url: "[(@{/board/update})]",
+                        headers: {Authorization:`Bearer ${sessionStorage.getItem("jwt")}`},
+                        //multipart/form-data 인코딩된 데이터는 반드시 POST 방식으로 처리(PUT 방식이 아님)
+                        method: "post",
+                        data: formData,
+                        processData: false,
+                        contentType: false,
+                        cache: false
+                    }).done((data) => {
+                        console.log(data);
+                    });
+                }
+            </script>
+        </div>
+    </div>
+</div>
+<!-- 게시물 수정 끝 -->
+<!-- 게시물 첨부 가져오기 시작 -->
+<div class="card m-2">
+    <div class="card-header">
+        게시물 첨부 가져오기
+    </div>
+    <div class="card-body">
+        <div>
+            <form id="downloadAttachForm">
+                <div class="input-group">
+                    <div class="input-group-prepend"><span class="input-group-text">bno</span></div>
+                    <input type="text" name="bno" class="form-control">
+                </div>  
+                <div class="mt-3">
+                    <a href="javascript:downloadAttach()"
+                       class="btn btn-info btn-sm mr-2">GET /board/img/{bno}</a>
+                </div>      
+            </form>
+            <img id="attachImg" class="mt-2" width="300px" />
+            <script th:inline="javascript">
+                function downloadAttach() {
+                    const bno = $("#downloadAttachForm [name=bno]").val();
+                    const url = "[(@{/board/img/})]" + bno;
+                    const jwt = "jwt=" + sessionStorage.getItem("jwt");
+                    // <img src="http://localhost/board/battach/3344?jwt=xxx"
+                    $("#attachImg").attr("src", `${url}?${jwt}`);
+                }
+            </script>
+        </div>
+    </div>
+</div>
+
+<!-- 게시물 첨부 가져오기 끝 -->
+</th:block>
+</th:block>
+
+</html>

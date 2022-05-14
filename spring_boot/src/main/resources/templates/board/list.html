@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="ko"
+ xmlns:th=http://www.thymeleaf.org
+ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<script type="text/javascript" src="js/board.js"></script>
+ <script th:src="@{/jquery/jquery-3.5.1.min.js}"></script>
+<script th:src="@{/js/bootstrap.bundle.min.js}"></script>
+ <link href="/css/layout.css" rel="stylesheet" type="text/css" />
+ <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
+</head>
+<body>
+<div class="main-container">
+<header class="logo">
+        <div>
+          <img class="logoPicture" src="/images/logo_text.png" alt="인스타 로고" />
+           <img id='addBoardBtn' src="/images/add.png" width="30px" alt="작성">
+          
+        </div>
+      </header>
+  <!--게시글 목록 시작 -->
+				
+	<!--댓글 목록 리스트 -->
+
+		<ul class="list-group">
+		<div class="boardlist">
+			<li>
+				<div>
+					<strong>user00</strong> <small>2022-01-01 13:13</small>
+				</div>
+				<p>test</p>
+			</li>
+			</div>
+		</ul>
+
+		<br>		
+		<!-- 페이징 버튼 -->
+		
+		  <ul class="pagination">
+		    <th:block  th:with="start = ${pager.startPageNo}, end = ${pager.endPageNo}">
+			    <li class="page-item" 
+			    		 th:with="start = ${pager.startPageNo}, end = ${pager.endPageNo}"
+			    		th:each="pageButton : ${#numbers.sequence(start, end)}">
+			    		<a class="page-link" th:href="@{?pageNo={page} (page = ${pageButton})}" th:text=${pageButton}></a>
+			    </li>
+		    </th:block>
+		  </ul>
+		 
+	<!-- Modal 시작-->
+	<div class="modal fade" id="myModal" tabindex="-1" role="dialog"
+	        aria-labelledby="myModalLabel" aria-hidden="true">
+	  <div class="modal-dialog">
+				<div class="modal-content">
+
+					<!-- Modal 바디 시작 -->
+					<div class="modal-body">
+						<div class="form-group">
+							<img class="logoPicture" src="/images/logo_text.png" alt="인스타 로고" />
+							<!-- 댓글 내용 입력 -->
+							<input class="form-control" name='mid' value='${mid }' readonly>
+							<input class="form-control" name='content' value='New'>
+						</div>
+						<div class="form-group">
+							<!-- 댓글 작성자 정보 -->
+				<div class="input-group">
+                    <div class="input-group-prepend"><span class="input-group-text">img</span></div>
+                    <input type="file" class="form-control" name="img">
+                </div>
+						</div>
+						
+					</div>
+					<div class="attach">
+					<img id="attachImg" class="mt-2" width="200px" style="margin:0 auto;" alt="이미지가 존재하지 않는 게시물입니다."/>
+				</div>
+				<!-- Modal 바디 끝 -->
+				<div class="modal-footer">
+				<!-- Modal 버튼 -->
+					<button id='modalModBtn' type="button" class="btn wt">Modify</button>
+					<button id='modalRemoveBtn' type="button" class="btn wt">Remove</button>
+					<button id='modalRegisterBtn' type="button" class="btn wt">Register</button>
+					<button id='modalCloseBtn' type="button" class="btn wt">Close</button>
+				</div>
+				</div>
+				<!-- /.modal-content -->
+	  </div><!-- /.modal-dialog -->
+	</div>
+	<!-- modal 끝 -->
+
+	<script th:inline="javascript">
+
+	
+	var boardlist = $(".boardlist");
+	var paging=$(".paging");
+	var modal = $(".modal"); //input 태그 찾기
+	//게시글 내용
+	 var modalInputBoard = modal.find("input[name='content']"); 
+	//게시글 작성자
+	 var modalInputMid = modal.find("input[name='mid']"); 
+	//게시글 작성일
+	 var modalInputBoardDate = modal.find("input[name='rdate']");
+	 var modalInputImg = modal.find("input[name=img]");
+	 var modalModBtn = $("#modalModBtn"); //버튼
+	 var modalRemoveBtn = $("#modalRemoveBtn"); //삭제 버튼 
+	 var modalRegisterBtn = $("#modalRegisterBtn"); //작성 버튼
+
+	$(function(){
+		 
+		
+		//글목록 show
+		function showList(){	
+			console.log("showList()");
+			var pageNo="[[${pageNo}]]";
+			var board="";
+			var str="" ;
+			var modalInputBoard = modal.find("input[name='content']"); 
+			$.ajax({
+				url:"[(@{/board/list?pageNo=})]"+pageNo,
+				type:"get",
+				dataType: "json",
+				success:function(data){
+					board=data.board;
+					console.log(board);
+					if(board == null || board.length == 0){
+			    		boardlist.html("등록된 게시물이 없습니다.");
+			    		return;
+			    	}
+				 	for (var i = 0, len = board.length || 0; i < len; i++) {
+				    	console.log(board[i]);
+				        str +=" <li data-bno='"+board[i].bno+"' class='list-group-item'> <div><div>["+board[i].bno+"] "+board[i].mid+" "; 
+				        str += boardService.displayTime(board[i].rdate);+"</div>";
+				        str +="<p>"+board[i].content+"</p></div>";
+						
+				      }
+				 	boardlist.html(str); 
+				 
+				 	
+				},
+				error:function(request,status, error){
+						alert("list search fail :: error code: "
+		            + request.status + "\n" + "error message: "
+		            + error + "\n");
+				}
+		
+			}); 
+			
+		}
+		showList();
+		
+		//특정댓글 클릭이벤트 처리
+		 $(".boardlist").on("click","li",function(e){		 
+			 var bno = $(this).data("bno"); //li 태그 bno	 
+			console.log(bno);
+			 //데이터 가져오기
+			 boardService.get(bno, function(board) {		
+				 //input 태그에 값입력
+				 console.log(board.content);
+				 console.log(board.mid);
+		         modalInputBoard.val(board.content);
+		         modalInputMid.val(board.mid);
+		         modalInputImg.val("");
+		         //날짜 처리
+		         modalInputBoardDate.val(boardService.displayTime(board.rdate))
+		         .attr("readonly","readonly"); //읽기전용처리
+		         modal.data("bno", board.bno); //댓글번호 저장	data-rid
+		         modal.data("mid", board.mid); //댓글 작성자 저장 data-mid
+		         modal.find("button[id !='modalCloseBtn']").hide(); //버튼 감추기
+		         modalModBtn.show(); //수정보튼 보여주기
+		         modalRemoveBtn.show(); //삭제버튼 보여주기		        
+		         const bno = board.bno;
+				 const url = "[(@{/board/img/})]" + bno;
+				 const jwt = "jwt=" + sessionStorage.getItem("jwt");
+				 // <img src="http://localhost/board/battach/3344?jwt=xxx"
+				 $("#attachImg").attr("src", `${url}?${jwt}`);
+				 modal.find(".attach").show();//사진 숨기기
+		         $(".modal").modal("show"); //모달 보여주기		 	
+			 } )
+			 
+		 });
+			//종료버튼 처리 모달 숨기기
+		 $("#modalCloseBtn").on("click", function(e){	    	
+		    	modal.modal('hide');
+		  });
+		
+		//수정버튼 클릭 처리
+		 modalModBtn.on("click", function(e){
+			//데이터 가져오기 input태그 ,모달 data-bno
+			const img = document.querySelector(".input-group [name=img]").files[0];
+			const formData = new FormData();
+                    formData.append("bno", modal.data("bno"));
+                    formData.append("content", modalInputBoard.val());
+                    if(img) {
+                        formData.append("img", img);
+                    }
+                    $.ajax({
+                        url: "[(@{/board/update})]",
+                        headers: {Authorization:`Bearer ${sessionStorage.getItem("jwt")}`},
+                        //multipart/form-data 인코딩된 데이터는 반드시 POST 방식으로 처리(PUT 방식이 아님)
+                        method: "post",
+                        data: formData,
+                        processData: false,
+                        contentType: false,
+                        cache: false
+                    }).done((data) => {
+                        console.log(data);
+   					 	modal.modal("hide"); //모달 숨기기
+   					 	showList(); // 리스트 새로 가져오기 
+                    });
+			
+		 });
+		//작성 버튼 클릭시
+		 $("#addBoardBtn").on("click", function(e){
+			 modal.find("input").val(""); //input 값 지우기
+		    // modalInputReplyDate.closest("div").hide(); //버튼 숨기기
+		     modal.find("button[id !='modalCloseBtn']").hide(); //버튼 숨기기
+		     modal.find(".attach").hide();//사진 숨기기
+		     modalRegisterBtn.show(); //등록버튼 보이기
+		     $(".modal").modal("show"); //모달 보이기
+		  }); 
+		// 댓글 작성 완료후 버튼 클릭시
+		 modalRegisterBtn.on("click", function() {
+			 const img = document.querySelector(".input-group [name=img]").files[0];
+			 const formData = new FormData();
+			 formData.append("content", modalInputBoard.val());
+             formData.append("mid", "ys");
+             if(img) {
+                 formData.append("img", img);
+             }
+             $.ajax({
+                 url: "[(@{/board/create})]",
+                 headers: {Authorization:`Bearer ${sessionStorage.getItem("jwt")}`},
+                 method: "post",
+                 data: formData,
+                 processData: false,
+                 contentType: false,
+                 cache: false
+             }).done((data) => {
+                 console.log(data);
+                 modal.modal("hide"); //모달 숨기기
+				 showList(); // 리스트 새로 가져오기 
+             });
+			 
+		 });
+	 
+		//삭제버튼 클릭 처리
+	    modalRemoveBtn.on("click", function (e){
+	   	 var bno = modal.data("bno"); //데이터 가져오기
+	   	 //DB 삭제 처리
+	    	boardService.remove(bno, function(result){
+	    		 alert("삭제완료"); //경고창
+	    		 modal.modal("hide"); //모달 숨기기
+	    		 showList(); //댓글 리스트 새로 가져오기
+	    	 }); 
+		    
+	     }); 
+	 
+	 }); 
+	 
+	</script>
+	<!--댓글 목록 끝 -->
+
+</div>
+
+</body>
+</html>

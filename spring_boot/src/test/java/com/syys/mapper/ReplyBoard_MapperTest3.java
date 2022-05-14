@@ -7,7 +7,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import com.syys.domain.ReplyVO;
 
 @SpringBootTest
-@MapperScan(basePackages = "com.syys.mapper")
 public class ReplyBoard_MapperTest3 {
 	@Autowired
 	private ReplyBoard mapper;

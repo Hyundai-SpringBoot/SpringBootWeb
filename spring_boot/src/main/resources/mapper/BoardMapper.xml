@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- 파일명: BoardMapper.xml 
+기능: 게시글 조회,작성, 수정, 삭제하는 Mapper xml 
+작성자: 진영서 
+
+[코멘트: 페이징 처리 적용] -->
+<mapper namespace="com.syys.mapper.BoardMapper">
+	
+	<!-- 게시글 데이터 불러오기(페이징 적용O) -->
+	<select id="getListWithPaging" parameterType="pager" resultType="board">
+        SELECT rnum, bno, content, rdate, udate, mid
+        FROM (
+            SELECT ROWNUM as rnum, bno, content, rdate, udate, mid
+            FROM (
+                SELECT bno, content, rdate, udate, mid
+                FROM board
+                ORDER BY bno DESC
+                )
+            WHERE rownum &lt;= #{endRowNo}
+        )
+        WHERE rnum &gt;= #{startRowNo}
+    </select>
+    
+	<!-- 게시글 데이터 수 불러오기 -->
+	<select id="getTotalCount" resultType="int">
+		select count(*) from board
+	</select>
+
+	
+	<!-- 게시글 조회 -->
+    <select id="read" resultType="board">
+    <if test="imagefile == null">
+    	SELECT
+        bno, content, rdate, udate, mid
+        FROM board
+        WHERE bno=#{bno}
+    
+    </if>
+    <if test="imagefile != null">
+   		SELECT
+        bno, content, rdate, udate, mid, imagefile, type
+        FROM board
+        WHERE bno=#{bno}
+    </if>
+		
+	</select>
+	
+	<!-- 게시글 추가 -->
+	<insert id="insert" parameterType="board">
+        <selectKey order="BEFORE" resultType="int" keyProperty="bno">
+            SELECT board_seq.nextval FROM dual
+        </selectKey>
+        <if test="imagefile == null">
+            INSERT INTO board
+            (bno, content, rdate, udate, mid)
+            VALUES
+            (#{bno}, #{content}, SYSDATE, SYSDATE, #{mid})
+        </if>
+        <if test="imagefile != null">
+            INSERT INTO board
+            (bno, content, rdate, udate, mid, imagefile, type)
+            VALUES
+            (#{bno}, #{content},SYSDATE, SYSDATE, #{mid}, #{imagefile}, #{type})
+        </if>
+    </insert>
+	
+
+	<!-- 게시글 삭제-->
+	<delete id="delete">
+		delete from board where bno=#{bno}
+	</delete>
+
+	<!-- 게시글 수정하는 프로시저 호출 -->
+	<update id="update" parameterType="board">
+		<if test="imagefile == null">
+            UPDATE board SET
+            content=#{content},
+            udate=sysdate
+            WHERE bno=#{bno}
+        </if>
+        <if test="imagefile != null">
+            UPDATE board SET
+            content=#{content},
+           	udate=sysdate,
+            imagefile=#{imagefile},
+            type=#{type}
+            WHERE bno=#{bno}
+        </if>
+
+	</update>
+
+</mapper>

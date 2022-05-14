@@ -10,9 +10,10 @@ body {
   flex-direction: column;
   align-content: center;
   flex-wrap: wrap;
-  width: 350px;
-  height: 380px;
+  width: 500px;
+  height: 400px;
   margin: 200px auto;
+  text-align:center;
   background-color: #fff;
   border: 1px solid #dbdbdb;
 }
