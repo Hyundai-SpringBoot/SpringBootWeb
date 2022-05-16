@@ -25,7 +25,7 @@ import lombok.extern.log4j.Log4j2;
 @Log4j2
 @Service
 @AllArgsConstructor
-@MapperScan(basePackages = "com.syys.mapper.BoardMapper")
+@MapperScan(basePackages = "com.syys.mapper")
 public class BoardServiceImpl implements BoardService {
 
 	// Mapper 객체 주입
