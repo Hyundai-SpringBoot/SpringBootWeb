@@ -11,17 +11,30 @@ body {
   align-content: center;
   flex-wrap: wrap;
   width: 500px;
-  margin: 200px auto;
+  margin-left:auto;
+  margin-right:auto;
+  margin-top:50px;
+  margin-bottom:50px;
   text-align:center;
   background-color: #fff;
   border: 1px solid #dbdbdb;
+ 
 }
+
 .boardlist li{
 	background-color:#fafafa;
 	list-style:none;
 	text-align:left;
-	
+	padding:10px;
+	margin:10px;
 }
+.boardlist{
+	height:500px;
+}
+
 .pagination li a{
 	color:#fc5f04;
+}
+.pagination ul{
+	margin-top:0px;
 }

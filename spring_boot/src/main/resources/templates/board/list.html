@@ -29,17 +29,18 @@
 		</header>
 		
 		<!--게시글 목록 시작 -->
-		<ul class="list-group">
 		<div class="boardlist">
-			<li>
-				<div>
-					<strong>user00</strong> <small>2022-01-01 13:13</small>
-				</div>
-				<p>test</p>
-			</li>
-			</div>
-		</ul>
-	
+			<ul class="list-group">
+			
+				<li>
+					<div>
+						<strong>user00</strong> <small>2022-01-01 13:13</small>
+					</div>
+					<p>test</p>
+				</li>
+				
+			</ul>
+		</div>
 		<!-- 페이징 버튼 -->
 		  <ul class="pagination" style="margin-left:auto;margin-right:auto">
 		  	<!-- 처음 페이지로 이동 -->
@@ -69,7 +70,7 @@
             	<a class="page-link" th:href="@{?(pageNo=${pager.totalPageNo})}" th:text="'>>'"></a>
         	</li>
 		  </ul>
-
+</div>
 	<!-- Modal 시작-->
 	<div class="modal fade" id="myModal" tabindex="-1" role="dialog"
 	        aria-labelledby="myModalLabel" aria-hidden="true">
@@ -300,7 +301,7 @@
 	</script>
 
 
-</div>
+
 
 </body>
 </html>
