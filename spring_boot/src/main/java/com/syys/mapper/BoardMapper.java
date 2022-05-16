@@ -9,9 +9,12 @@ package com.syys.mapper;
 
 import java.util.List;
 
+import org.apache.ibatis.annotations.Mapper;
+
 import com.syys.domain.BoardVO;
 import com.syys.domain.Pager;
 
+@Mapper
 public interface BoardMapper {
 		// 게시글 데이터 수 불러오기 (SELECT문 이용)
 		public int getTotalCount();
