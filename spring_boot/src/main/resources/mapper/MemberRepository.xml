@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?> 
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd"> 
+<mapper namespace="com.syys.mapper.MemberRepository">
+	<insert id="insertMember"> 
+	insert into member(mid,mpassword,mname,memail,social) 
+	values(#{mid},#{mpassword},#{mname, jdbcType=VARCHAR},#{memail, jdbcType=VARCHAR},#{social}) 
+	</insert> 
+	
+	<insert id="insertRoleSet" > 
+	insert into role_set 
+	(mid,role_set) 
+	values(#{mid},#{role_set}) 
+	</insert> 
+	
+	
+	<select id="findById" resultType="com.syys.entity.Member2">
+	select c1.mid,c1.mpassword,c1.mname,c1.memail,c1.social,c2.role_set
+	from
+	member c1 join role_set c2
+	on c1.mid = c2.mid
+	where c1.mid = #{mid} and c1.social=#{social}
+	</select>
+</mapper>
+
