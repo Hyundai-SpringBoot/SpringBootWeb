@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width" />
+<title>repl.it</title>
+<link href="/css/login.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+	<div class="main-container">
+		<header class="logo">
+			<div>
+				<img class="logoPicture" src="/images/logo_text.png" alt="인스타 로고" />
+			</div>
+		</header>
+		<contant class="login-container">
+		<form action="/signUp" method="post">
+			<input id="mid" type="id" class="id" name="mid"
+				placeholder="아이디" /> <input id="mpassword"
+				type="password" class="password" name="mpassword" placeholder="비밀번호" />
+			<input id="mname" type="text" class="text" name="mname"
+				placeholder="이름" /> <input id="memail" type="text" class="text"
+				name="memail" placeholder="이메일" />
+			<!--                 <input type="hidden" class="text" name="social" value= 0 /> -->
+			<button id="loginBtn" class="loginBtn" type="button">완료</button>
+		</form>
+	</div>
+	<script type="text/javascript">
+		const loginButton = document.querySelector(".loginBtn");
+
+		loginButton
+				.addEventListener(
+						"click",
+						function() {
+							const loginId = document.querySelector("#mid").value;
+							const loginPassword = document
+									.querySelector("#mpassword").value;
+
+							loginId && loginPassword ? (document
+									.querySelector(".loginBtn").style.backgroundColor = "blue")
+									: 0;
+						});
+	</script>
+
+	<script src="http://code.jquery.com/jquery-2.2.3.min.js"></script>
+	<script>
+		$().ready(
+				function() {
+
+					$("#loginBtn").click(
+							function() {
+
+								$.ajax({
+									type : "POST",
+									url : "/signUp?mid=" + $("#mid").val()
+											+ "&mpassword="
+											+ $("#mpassword").val()
+											+ "&memail=" + $("#memail").val()
+											+ "&mname=" + $("#mname").val(),
+									dataType : "json",
+									contentType : "application/json",
+									success : function(data) {
+										if (data.result == "success") {
+											console.log("success");
+											location.href = "/login/login";
+
+										}//if
+									},//success
+									error : function(request, status, error) {
+										let message = "code : " + request
+												+ "\n";
+										message += "message : "
+												+ request.responseText + "\n";
+										message += "error : " + error;
+										alert(message);
+									}//error
+								})
+							});
+				});
+	</script>
+</body>
+</html>

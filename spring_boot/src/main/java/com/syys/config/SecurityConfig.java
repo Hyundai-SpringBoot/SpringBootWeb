@@ -29,17 +29,18 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
-		http.formLogin().loginPage("/login/login.html")
+		http.formLogin().loginPage("/login/login")
 						.loginProcessingUrl("/login")
 						.usernameParameter("mid")
 						.passwordParameter("mpassword")
-						.defaultSuccessUrl("/board/list")
-						.failureUrl("/login/login.html?error=true");
+						.defaultSuccessUrl("/board")
+						.failureUrl("/login/login?error=true");
 		
-		http.oauth2Login().defaultSuccessUrl("/board/list");
+		http.oauth2Login().defaultSuccessUrl("/board");
 																																																																																																																																																																																																																																																										
 		http.csrf().disable(); // csrf 토큰 비활성화
-		http.logout();
+		http.logout().logoutUrl("/logout")
+					 .logoutSuccessUrl("/login/login");
 
 	}
 

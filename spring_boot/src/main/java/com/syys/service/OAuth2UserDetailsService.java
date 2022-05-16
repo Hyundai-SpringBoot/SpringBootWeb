@@ -39,13 +39,13 @@ public class OAuth2UserDetailsService extends DefaultOAuth2UserService{
         } // end if
  
         // 가입한적이 없다면 추가 패스워드 1111 이름은 이메일주소
-        Member member = new Member();
-        member.setMid(mid);
+        Member2 member2 = new Member2();
+        member2.setMid(mid);
         
-        member.setMpassword(passwordEncoder.encode("1111"));
-        member.setSocial(1);
+        member2.setMpassword(passwordEncoder.encode("1111"));
+        member2.setSocial(1);
         // 디비에 ClubMember 행저장
-        memberRepository.insertMember(member);
+        memberRepository.insertMember(member2);
  
         RoleSet role = new RoleSet();
         role.setMid(mid);
