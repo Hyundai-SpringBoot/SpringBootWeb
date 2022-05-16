@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width" />
+    <title>repl.it</title>
+    <link href="/css/login.css" rel="stylesheet" type="text/css" />
+  </head>
+  <body>
+    <div class="main-container">
+      <header class="logo">
+        <div>
+          <img class="logoPicture" src="/images/logo_text.png" alt="인스타 로고" />
+        </div>
+      </header>
+      <contant class="login-container">
+        <form action="/signUp" method="post">
+		        <input type="id" class="id" name="mid" placeholder="전화번호,사용자 이름 또는 이메일"/>
+		        <input type="password" class="password" name="mpassword" placeholder="비밀번호" />
+		        <input type="text" class="text" name="mname" placeholder="이름"/>
+                <input type="text" class="text" name="memail" placeholder="이메일"/>
+                <input type="hidden" class="text" name="social" value= 0 />
+		        <button class="loginBtn" type="submit">완료</button>    
+		</form>
+    </div>
+  </body>
+  
+  <script type="text/javascript">
+    const loginButton = document.querySelector(".loginBtn");
+
+    loginButton.addEventListener("click", function () {
+      const loginId = document.querySelector("#mid").value;
+      const loginPassword = document.querySelector("#mpassword").value;
+
+      loginId && loginPassword
+        ? (document.querySelector(".loginBtn").style.backgroundColor = "blue")
+        : 0;
+    });
+    </script>
+</html>
