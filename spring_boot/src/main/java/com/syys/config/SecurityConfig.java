@@ -33,10 +33,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 						.loginProcessingUrl("/login")
 						.usernameParameter("mid")
 						.passwordParameter("mpassword")
-						.defaultSuccessUrl("/login/list")
+						.defaultSuccessUrl("/board/list")
 						.failureUrl("/login/login.html?error=true");
 		
-		http.oauth2Login().defaultSuccessUrl("/login/list");
+		http.oauth2Login().defaultSuccessUrl("/board/list");
 																																																																																																																																																																																																																																																										
 		http.csrf().disable(); // csrf 토큰 비활성화
 		http.logout();

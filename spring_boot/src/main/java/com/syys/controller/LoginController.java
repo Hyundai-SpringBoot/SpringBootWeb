@@ -12,7 +12,7 @@ import com.syys.dto.AuthMemberDTO;
 
 @Log4j2
 @Controller
-@RequestMapping("login")
+@RequestMapping("/login")
 public class LoginController {
 	@GetMapping("/all")  //로그인을 하지 않은 사용자도 접근할 수 있다.
 	public void ALL(){ 
@@ -33,22 +33,12 @@ public class LoginController {
 
 	}
 	 	
-	@GetMapping("/list")
-	public void list() {
-		log.info("list.........");
-	}
+	
 	@GetMapping("/login")
 	public void login(){
 		log.info("usual_login......");
 	}
-	
-	@PostMapping("/access")
-	public void access(){
-		log.info("access");
-	}
-	 
-	
-	
+
 	@GetMapping("/register") //회원가입
 	public String register() {
 		return "register";
