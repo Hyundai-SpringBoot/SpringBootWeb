@@ -83,9 +83,9 @@
 							<img class="logoPicture" src="/images/logo_text.png" alt="인스타 로고" />
 							<!-- 조회수 표시 -->
 							<small><div id="hitcount">hit</div></small>
-							<!-- 댓글 작성자 정보 -->
+							<!-- 글 작성자 정보 -->
 							<input class="form-control" name='mid' value='${mid}' readonly>
-							<!-- 댓글 내용 입력 -->
+							<!-- 글 내용 입력 -->
 							<input class="form-control" name='content' value='New'>
 						</div>
 						<div class="form-group">
@@ -179,7 +179,7 @@
 		}
 		showList();
 
-		//특정댓글 클릭이벤트 처리
+		//특정 글 클릭이벤트 처리
 		$(".boardlist").on("click","li",function(e){		 
 			var bno = $(this).data("bno"); //li 태그 bno	 
 			console.log(bno);
@@ -195,8 +195,8 @@
 		         //날짜 처리
 		         modalInputBoardDate.val(boardService.displayTime(board.rdate))
 		         .attr("readonly","readonly"); //읽기전용처리
-		         modal.data("bno", board.bno); //댓글번호 저장	data-bno
-		         modal.data("mid", board.mid); //댓글 작성자 저장 data-mid
+		         modal.data("bno", board.bno); //글번호 저장	data-bno
+		         modal.data("mid", board.mid); //글 작성자 저장 data-mid
 		         modal.find("button[id !='modalCloseBtn']").hide(); //버튼 감추기
 		         modal.find("#hitcount").text("조회수: "+board.hit); //조회수 표시
 		         modalModBtn.show(); //수정버튼 보여주기
@@ -267,7 +267,7 @@
 		     $(".modal").modal("show"); //모달 보이기
 		  }); 
 		 
-		 // 댓글 작성 완료후 버튼 클릭시
+		 // 글 작성 완료후 버튼 클릭시
 		 modalRegisterBtn.on("click", function() {
 			 //이미지 파일
 			 const img = document.querySelector(".input-group [name=img]").files[0];
@@ -302,7 +302,7 @@
 		   	 	boardService.remove(bno, function(result){
 		    		 alert("삭제완료"); //경고창
 		    		 modal.modal("hide"); //모달 숨기기
-		    		 showList(); //댓글 리스트 새로 가져오기
+		    		 showList(); //글 리스트 새로 가져오기
 		    	 }); 
 		    
 	   	 	}
