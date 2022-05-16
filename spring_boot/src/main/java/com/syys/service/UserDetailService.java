@@ -44,6 +44,7 @@ public class UserDetailService implements UserDetailsService{
 		
 		AuthMemberDTO authMemberDTO = new AuthMemberDTO(result.getMid(), result.getMpassword(),result.getMname(),result.getMemail(),
 														result.getSocial(), authorities);
+		authMemberDTO.setMid(result.getMid());
 		authMemberDTO.setMname(result.getMname());
 		authMemberDTO.setSocial(result.getSocial());
 		authMemberDTO.setMpassword(result.getMpassword());
