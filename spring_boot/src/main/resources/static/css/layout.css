@@ -22,3 +22,6 @@ body {
 	text-align:left;
 	
 }
+.pagination li a{
+	color:#fc5f04;
+}

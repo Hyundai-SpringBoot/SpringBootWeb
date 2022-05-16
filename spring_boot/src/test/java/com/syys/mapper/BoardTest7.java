@@ -1,28 +1,27 @@
 package com.syys.mapper;
 /*************************************************************
-파일명: BoardTest4.java
+파일명: BoardTest7.java
 작성자: 진영서
 *************************************************************/
+
+
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import com.syys.domain.BoardVO;
+ 
 @SpringBootTest
-public class BoardTest4 {
-	@Autowired
+
+public class BoardTest7 {
+    @Autowired
     private BoardMapper mapper;
    
     @Test
-    public void ListTest() {
-        BoardVO board = new BoardVO();
-        board.setContent("mapper test content");
-        board.setMid("ys");
-        mapper.insert(board);
-        int total = mapper.getTotalCount();
+    public void UpdateTest2() {
+        //디비에서 행존재 확인
+        int total =mapper.updatehit(1);
         System.out.println(total);
-        System.out.println("-------------");
-       
-    }
+        System.out.println("-------------");       
+    }//end tets
 
 }

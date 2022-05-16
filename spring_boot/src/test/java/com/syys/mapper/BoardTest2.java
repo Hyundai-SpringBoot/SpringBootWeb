@@ -1,5 +1,8 @@
 package com.syys.mapper;
-
+/*************************************************************
+파일명: BoardTest2.java
+작성자: 진영서
+*************************************************************/
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;

@@ -1,3 +1,10 @@
+/*************************************************************
+파일명: ControllerExceptionHandler.java
+기능: Exception 처리
+작성자: 진영서
+
+[코멘트: X]
+*************************************************************/
 package com.syys.exception;
 import java.io.IOException;
 import javax.servlet.http.HttpServletResponse;
@@ -20,7 +27,7 @@ public class ControllerExceptionHandler {
         e.printStackTrace();
         //내부 서버 에러
         response.sendError(500);
-    }//end handleOtherException
+    }
    
     @ExceptionHandler
     public void handleOtherException(BadCredentialsException e,

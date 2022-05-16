@@ -1,3 +1,7 @@
+/*************************************************************
+파일명: BoardServiceTest.java
+작성자: 진영서
+*************************************************************/
 package com.syys.service;
 import java.util.List;
 
@@ -14,14 +18,8 @@ public class BoardServiceTest {
     private BoardService boardService;
    
     @Test
-    public void ServiceTest1() {
-    int totalRows = boardService.getTotal();
-    Pager pager = new Pager(5,5,totalRows,1);
-    List<BoardVO> list=boardService.getList(pager);
-    for (BoardVO i : list) {
-        System.out.println(i);      
-    }//end for
-    System.out.println("----------");
+    public void ServiceTest1() {       
+    BoardVO board=boardService.get(1, true);
+    System.out.println(board);
     }
-
 }

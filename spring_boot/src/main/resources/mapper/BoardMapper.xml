@@ -4,19 +4,19 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <!-- 파일명: BoardMapper.xml 
-기능: 게시글 조회,작성, 수정, 삭제하는 Mapper xml 
+기능: 게시글 조회, 작성, 수정, 삭제하는 Mapper xml 
 작성자: 진영서 
 
-[코멘트: 페이징 처리 적용] -->
+[코멘트: 페이징 처리 적용], 조회수 기능 추가 -->
 <mapper namespace="com.syys.mapper.BoardMapper">
 	
 	<!-- 게시글 데이터 불러오기(페이징 적용O) -->
 	<select id="getListWithPaging" parameterType="pager" resultType="board">
-        SELECT rnum, bno, content, rdate, udate, mid
+        SELECT rnum, bno, content, rdate, udate, mid, hit
         FROM (
-            SELECT ROWNUM as rnum, bno, content, rdate, udate, mid
+            SELECT ROWNUM as rnum, bno, content, rdate, udate, mid, hit
             FROM (
-                SELECT bno, content, rdate, udate, mid
+                SELECT bno, content, rdate, udate, mid, hit
                 FROM board
                 ORDER BY bno DESC
                 )
@@ -33,16 +33,19 @@
 	
 	<!-- 게시글 조회 -->
     <select id="read" resultType="board">
+    <!-- 이미지 파일 없는 경우 -->
     <if test="imagefile == null">
     	SELECT
-        bno, content, rdate, udate, mid
+        bno, content, rdate, udate, mid, hit
         FROM board
         WHERE bno=#{bno}
     
     </if>
+    
+    <!-- 이미지 파일 있는 경우 -->
     <if test="imagefile != null">
    		SELECT
-        bno, content, rdate, udate, mid, imagefile, type
+        bno, content, rdate, udate, mid, imagefile, type, hit
         FROM board
         WHERE bno=#{bno}
     </if>
@@ -54,17 +57,19 @@
         <selectKey order="BEFORE" resultType="int" keyProperty="bno">
             SELECT board_seq.nextval FROM dual
         </selectKey>
+        <!-- 이미지 파일 없는 경우 -->
         <if test="imagefile == null">
             INSERT INTO board
-            (bno, content, rdate, udate, mid)
+            (bno, content, rdate, udate, mid, hit)
             VALUES
-            (#{bno}, #{content}, SYSDATE, SYSDATE, #{mid})
+            (#{bno}, #{content}, SYSDATE, SYSDATE, #{mid}, 0)
         </if>
+        <!-- 이미지 파일 있는 경우 -->
         <if test="imagefile != null">
             INSERT INTO board
-            (bno, content, rdate, udate, mid, imagefile, type)
+            (bno, content, rdate, udate, mid, imagefile, type, hit)
             VALUES
-            (#{bno}, #{content},SYSDATE, SYSDATE, #{mid}, #{imagefile}, #{type})
+            (#{bno}, #{content},SYSDATE, SYSDATE, #{mid}, #{imagefile}, #{type}, 0)
         </if>
     </insert>
 	
@@ -76,12 +81,14 @@
 
 	<!-- 게시글 수정하는 프로시저 호출 -->
 	<update id="update" parameterType="board">
+		<!-- 이미지 파일 없는 경우 -->
 		<if test="imagefile == null">
             UPDATE board SET
             content=#{content},
             udate=sysdate
             WHERE bno=#{bno}
         </if>
+        <!-- 이미지 파일 있는 경우 -->
         <if test="imagefile != null">
             UPDATE board SET
             content=#{content},
@@ -91,6 +98,11 @@
             WHERE bno=#{bno}
         </if>
 
+	</update>
+	
+	<!-- 게시글 조회수 업데이트 -->
+	<update id="updatehit" parameterType="int">
+		Update board set hit=hit+1 where bno=#{bno}
 	</update>
 
 </mapper>

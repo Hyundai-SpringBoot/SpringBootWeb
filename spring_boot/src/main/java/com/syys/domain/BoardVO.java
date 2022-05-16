@@ -1,3 +1,8 @@
+/*************************************************************
+파일명: BoardVO.java
+기능: Board 테이블 VO
+작성자: 진영서
+*************************************************************/
 package com.syys.domain;
 
 import java.util.Date;
@@ -20,4 +25,5 @@ public class BoardVO {
 	private MultipartFile img;
 	private String imagefile;
 	private String type;
+	private int hit;
 }

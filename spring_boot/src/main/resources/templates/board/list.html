@@ -1,3 +1,8 @@
+<!-- 
+파일명: list.html
+기능: 게시판 글 목록 페이지 
+작성자: 진영서 -->
+
 <!DOCTYPE html>
 <html lang="ko"
  xmlns:th=http://www.thymeleaf.org
@@ -5,7 +10,7 @@
 
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>lamenstagram</title>
 <script type="text/javascript" src="js/board.js"></script>
  <script th:src="@{/jquery/jquery-3.5.1.min.js}"></script>
 <script th:src="@{/js/bootstrap.bundle.min.js}"></script>
@@ -14,17 +19,16 @@
 </head>
 <body>
 <div class="main-container">
-<header class="logo">
-        <div>
-          <img class="logoPicture" src="/images/logo_text.png" alt="인스타 로고" />
-           <img id='addBoardBtn' src="/images/add.png" width="30px" alt="작성">
-          
-        </div>
-      </header>
-  <!--게시글 목록 시작 -->
-				
-	<!--댓글 목록 리스트 -->
-
+<!-- 게시판 로고 -->
+		<header class="logo">
+			<div>
+				<img class="logoPicture" src="/images/logo_text.png" alt="인스타 로고" />
+				<img id='addBoardBtn' src="/images/add.png" width="30px" alt="작성"
+					style="float: right">
+			</div>
+		</header>
+		
+		<!--게시글 목록 시작 -->
 		<ul class="list-group">
 		<div class="boardlist">
 			<li>
@@ -35,11 +39,19 @@
 			</li>
 			</div>
 		</ul>
-
-		<br>		
+	
 		<!-- 페이징 버튼 -->
-		
-		  <ul class="pagination">
+		  <ul class="pagination" style="margin-left:auto;margin-right:auto">
+		  	<!-- 처음 페이지로 이동 -->
+		  	<li th:if="${pager.startPageNo > 1}">
+            	<a class="page-link" th:href="@{?(pageNo=1}" th:text="'<<'"></a>
+        	</li>
+        	<!-- 이전 페이지 그룹으로 이동 -->
+		  	<li th:if="${pager.startPageNo > 1}">
+            	<a class="page-link" th:href="@{?(pageNo=${pager.startPageNo - pager.pagesPerGroup})}" 
+            	th:text="'<'"></a>
+        	</li>
+        	<!-- 페이지 번호 -->
 		    <th:block  th:with="start = ${pager.startPageNo}, end = ${pager.endPageNo}">
 			    <li class="page-item" 
 			    		 th:with="start = ${pager.startPageNo}, end = ${pager.endPageNo}"
@@ -47,8 +59,17 @@
 			    		<a class="page-link" th:href="@{?pageNo={page} (page = ${pageButton})}" th:text=${pageButton}></a>
 			    </li>
 		    </th:block>
+		    <!-- 다음 페이지 그룹으로 이동 -->
+		    <li th:if="${pager.endPageNo < pager.totalPageNo}">
+		   		<a class="page-link" th:href="@{?(pageNo=${pager.startPageNo + pager.pagesPerGroup})}" 
+            	th:text="'>'"></a>
+		    </li>
+		    <!-- 마지막 페이지로 이동 -->
+		    <li th:if="${pager.endPageNo < pager.totalPageNo}">
+            	<a class="page-link" th:href="@{?(pageNo=${pager.totalPageNo})}" th:text="'>>'"></a>
+        	</li>
 		  </ul>
-		 
+
 	<!-- Modal 시작-->
 	<div class="modal fade" id="myModal" tabindex="-1" role="dialog"
 	        aria-labelledby="myModalLabel" aria-hidden="true">
@@ -59,19 +80,23 @@
 					<div class="modal-body">
 						<div class="form-group">
 							<img class="logoPicture" src="/images/logo_text.png" alt="인스타 로고" />
-							<!-- 댓글 내용 입력 -->
+							<!-- 조회수 표시 -->
+							<small><div id="hitcount">hit</div></small>
+							<!-- 댓글 작성자 정보 -->
 							<input class="form-control" name='mid' value='${mid }' readonly>
+							<!-- 댓글 내용 입력 -->
 							<input class="form-control" name='content' value='New'>
 						</div>
 						<div class="form-group">
-							<!-- 댓글 작성자 정보 -->
-				<div class="input-group">
-                    <div class="input-group-prepend"><span class="input-group-text">img</span></div>
-                    <input type="file" class="form-control" name="img">
-                </div>
+							<!-- 이미지 파일 첨부 -->
+							<div class="input-group">
+			                    <div class="input-group-prepend"><span class="input-group-text">img</span></div>
+			                    <input type="file" class="form-control" name="img">
+			                </div>
 						</div>
 						
 					</div>
+					<!-- 첨부 이미지가 있는 경우 보여주기 -->
 					<div class="attach">
 					<img id="attachImg" class="mt-2" width="200px" style="margin:0 auto;" alt="이미지가 존재하지 않는 게시물입니다."/>
 				</div>
@@ -84,8 +109,8 @@
 					<button id='modalCloseBtn' type="button" class="btn wt">Close</button>
 				</div>
 				</div>
-				<!-- /.modal-content -->
-	  </div><!-- /.modal-dialog -->
+				
+	  </div>
 	</div>
 	<!-- modal 끝 -->
 
@@ -94,21 +119,20 @@
 	
 	var boardlist = $(".boardlist");
 	var paging=$(".paging");
-	var modal = $(".modal"); //input 태그 찾기
+	var modal = $(".modal"); 
 	//게시글 내용
-	 var modalInputBoard = modal.find("input[name='content']"); 
+	var modalInputBoard = modal.find("input[name='content']"); 
 	//게시글 작성자
-	 var modalInputMid = modal.find("input[name='mid']"); 
+	var modalInputMid = modal.find("input[name='mid']"); 
 	//게시글 작성일
-	 var modalInputBoardDate = modal.find("input[name='rdate']");
-	 var modalInputImg = modal.find("input[name=img]");
-	 var modalModBtn = $("#modalModBtn"); //버튼
-	 var modalRemoveBtn = $("#modalRemoveBtn"); //삭제 버튼 
-	 var modalRegisterBtn = $("#modalRegisterBtn"); //작성 버튼
+	var modalInputBoardDate = modal.find("input[name='rdate']");
+	//게시물 이미지 파일
+	var modalInputImg = modal.find("input[name=img]");
+	var modalModBtn = $("#modalModBtn"); //버튼
+	var modalRemoveBtn = $("#modalRemoveBtn"); //삭제 버튼 
+	var modalRegisterBtn = $("#modalRegisterBtn"); //작성 버튼
 
 	$(function(){
-		 
-		
 		//글목록 show
 		function showList(){	
 			console.log("showList()");
@@ -116,6 +140,7 @@
 			var board="";
 			var str="" ;
 			var modalInputBoard = modal.find("input[name='content']"); 
+			//json 형식으로 게시물 목록 받아오기
 			$.ajax({
 				url:"[(@{/board/list?pageNo=})]"+pageNo,
 				type:"get",
@@ -129,14 +154,14 @@
 			    	}
 				 	for (var i = 0, len = board.length || 0; i < len; i++) {
 				    	console.log(board[i]);
-				        str +=" <li data-bno='"+board[i].bno+"' class='list-group-item'> <div><div>["+board[i].bno+"] "+board[i].mid+" "; 
-				        str += boardService.displayTime(board[i].rdate);+"</div>";
+				        str +=" <li data-bno='"+board[i].bno+"' class='list-group-item'> <div><div><small>["+board[i].bno;
+				        str +="]</small> <strong> "+board[i].mid+"</strong> <br>"; 
+				        str +="<div class='float-right'><small>조회수 "+board[i].hit+"<br>";
+				        str +=boardService.displayTime(board[i].rdate)+"</small></div></div>";
 				        str +="<p>"+board[i].content+"</p></div>";
 						
 				      }
 				 	boardlist.html(str); 
-				 
-				 	
 				},
 				error:function(request,status, error){
 						alert("list search fail :: error code: "
@@ -150,11 +175,12 @@
 		showList();
 		
 		//특정댓글 클릭이벤트 처리
-		 $(".boardlist").on("click","li",function(e){		 
-			 var bno = $(this).data("bno"); //li 태그 bno	 
+		$(".boardlist").on("click","li",function(e){		 
+			var bno = $(this).data("bno"); //li 태그 bno	 
 			console.log(bno);
+			 
 			 //데이터 가져오기
-			 boardService.get(bno, function(board) {		
+			 boardService.get(bno,true, function(board) {		
 				 //input 태그에 값입력
 				 console.log(board.content);
 				 console.log(board.mid);
@@ -164,24 +190,30 @@
 		         //날짜 처리
 		         modalInputBoardDate.val(boardService.displayTime(board.rdate))
 		         .attr("readonly","readonly"); //읽기전용처리
-		         modal.data("bno", board.bno); //댓글번호 저장	data-rid
+		         modal.data("bno", board.bno); //댓글번호 저장	data-bno
 		         modal.data("mid", board.mid); //댓글 작성자 저장 data-mid
 		         modal.find("button[id !='modalCloseBtn']").hide(); //버튼 감추기
-		         modalModBtn.show(); //수정보튼 보여주기
-		         modalRemoveBtn.show(); //삭제버튼 보여주기		        
+		         modal.find("#hitcount").text("조회수: "+board.hit); //조회수 표시
+		         modalModBtn.show(); //수정버튼 보여주기
+		         modalRemoveBtn.show(); //삭제버튼 보여주기		  
+		         //이미지 불러오기
 		         const bno = board.bno;
 				 const url = "[(@{/board/img/})]" + bno;
 				 const jwt = "jwt=" + sessionStorage.getItem("jwt");
 				 // <img src="http://localhost/board/battach/3344?jwt=xxx"
 				 $("#attachImg").attr("src", `${url}?${jwt}`);
-				 modal.find(".attach").show();//사진 숨기기
-		         $(".modal").modal("show"); //모달 보여주기		 	
+				 modal.find(".attach").show();//사진 보여주기 
+		         $(".modal").modal("show"); //모달 보여주기		 
 			 } )
 			 
 		 });
-			//종료버튼 처리 모달 숨기기
-		 $("#modalCloseBtn").on("click", function(e){	    	
+		
+		
+		 //종료버튼 처리 모달 숨기기
+		 $("#modalCloseBtn").on("click", function(e){	  
 		    	modal.modal('hide');
+		    	//조회수 업데이트를 위해 목록 다시 불러오기
+		    	showList(); 
 		  });
 		
 		//수정버튼 클릭 처리
@@ -189,6 +221,7 @@
 			//데이터 가져오기 input태그 ,모달 data-bno
 			const img = document.querySelector(".input-group [name=img]").files[0];
 			const formData = new FormData();
+					//수정 내용 form에 저장
                     formData.append("bno", modal.data("bno"));
                     formData.append("content", modalInputBoard.val());
                     if(img) {
@@ -210,21 +243,26 @@
                     });
 			
 		 });
-		//작성 버튼 클릭시
+		
+		
+		 //작성 버튼 클릭시
 		 $("#addBoardBtn").on("click", function(e){
 			 modal.find("input").val(""); //input 값 지우기
-		    // modalInputReplyDate.closest("div").hide(); //버튼 숨기기
 		     modal.find("button[id !='modalCloseBtn']").hide(); //버튼 숨기기
 		     modal.find(".attach").hide();//사진 숨기기
+		     modal.find("input[name='mid']").attr("readonly",false);
 		     modalRegisterBtn.show(); //등록버튼 보이기
 		     $(".modal").modal("show"); //모달 보이기
 		  }); 
-		// 댓글 작성 완료후 버튼 클릭시
+		 
+		 // 댓글 작성 완료후 버튼 클릭시
 		 modalRegisterBtn.on("click", function() {
+			 //이미지 파일
 			 const img = document.querySelector(".input-group [name=img]").files[0];
 			 const formData = new FormData();
+			 //작성 내용 form에 저장
 			 formData.append("content", modalInputBoard.val());
-             formData.append("mid", "ys");
+             formData.append("mid", modalInputMid.val());
              if(img) {
                  formData.append("img", img);
              }
@@ -246,8 +284,8 @@
 	 
 		//삭제버튼 클릭 처리
 	    modalRemoveBtn.on("click", function (e){
-	   	 var bno = modal.data("bno"); //데이터 가져오기
-	   	 //DB 삭제 처리
+	    	var bno = modal.data("bno"); //데이터 가져오기
+	   	 	//DB 삭제 처리
 	    	boardService.remove(bno, function(result){
 	    		 alert("삭제완료"); //경고창
 	    		 modal.modal("hide"); //모달 숨기기
@@ -259,7 +297,7 @@
 	 }); 
 	 
 	</script>
-	<!--댓글 목록 끝 -->
+
 
 </div>
 
