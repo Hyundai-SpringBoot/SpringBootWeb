@@ -49,7 +49,7 @@
         	</li>
         	<!-- 이전 페이지 그룹으로 이동 -->
 		  	<li th:if="${pager.startPageNo > 1}">
-            	<a class="page-link" th:href="@{?pageNo=${pager.startPageNo - pager.pagesPerGroup}}" 
+            	<a class="page-link" th:href="@{?pageNo={page} (page=${pager.startPageNo-pager.pagesPerGroup})}" 
             	th:text="'<'"></a>
         	</li>
         	<!-- 페이지 번호 -->
@@ -62,12 +62,12 @@
 		    </th:block>
 		    <!-- 다음 페이지 그룹으로 이동 -->
 		    <li th:if="${pager.endPageNo < pager.totalPageNo}">
-		   		<a class="page-link" th:href="@{?pageNo=${pager.startPageNo + pager.pagesPerGroup}}" 
+		   		<a class="page-link" th:href="@{?pageNo={page} (page=${pager.startPageNo+pager.pagesPerGroup})}" 
             	th:text="'>'"></a>
 		    </li>
 		    <!-- 마지막 페이지로 이동 -->
 		    <li th:if="${pager.endPageNo < pager.totalPageNo}">
-            	<a class="page-link" th:href="@{?pageNo=${pager.totalPageNo}}" th:text="'>>'"></a>
+            	<a class="page-link" th:href="@{?pageNo={page} (page=${pager.totalPageNo})}" th:text="'>>'"></a>
         	</li>
 		  </ul>
 </div>

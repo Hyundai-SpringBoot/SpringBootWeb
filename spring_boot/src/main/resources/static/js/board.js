@@ -1,12 +1,12 @@
 /*************************************************************
 파일명: board.js
-기능: 댓글 조회, 삭제, 날짜 출력 폼 수정
+기능: 게시글 조회, 삭제, 날짜 출력 폼 수정
 작성자: 진영서
 *************************************************************/
 
 var boardService = (function() {
 
-	//댓글 조회
+	//게시글 조회
 	function get(bno,check, callback,error) {
 		//조회수 업데이트하므로 hit parameter 전달
 		$.get("/board/" + bno+"?hit="+check ,function(result){
@@ -22,7 +22,7 @@ var boardService = (function() {
 	}
 
 	
-	//댓글 삭제
+	//게시글 삭제
 	function remove(bno, callback, error) {
 		$.ajax({
 			type: "delete",
@@ -41,7 +41,7 @@ var boardService = (function() {
 	
 	
 	
-	//댓글 날짜(rdate) 수정하기
+	//게시글 날짜(rdate) 수정하기
 	function displayTime(timevalue) {
 		var today = new Date();
 		var gap = today.getTime() - timevalue;
