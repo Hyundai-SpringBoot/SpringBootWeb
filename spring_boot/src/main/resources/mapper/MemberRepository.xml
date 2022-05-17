@@ -28,7 +28,7 @@
 	</update>
 	
 	<delete id="delete">
-		delete from member where mid={#mid}
+		delete from member where mid=#{mid}
 	</delete>
 </mapper>
 

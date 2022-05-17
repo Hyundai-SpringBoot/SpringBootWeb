@@ -15,5 +15,5 @@ public interface MemberRepository {
 	public void insertRoleSet(RoleSet roleSet) throws SQLException;
 	public Member2 findById(@Param("mid") String mid, @Param("social") int social) throws SQLException;
 	public void updateMember(Member member) throws SQLException;
-	public void deleteMember(Member member) throws SQLException;
+	public void delete(String mid) throws SQLException;
 }

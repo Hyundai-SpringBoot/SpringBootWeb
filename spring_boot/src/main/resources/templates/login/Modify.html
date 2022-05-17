@@ -16,7 +16,10 @@
 			</div>
 			<img id="person" src="/images/update.png" width="35px" alt="수정"/>
 		<div>회원정보 수정</div>
+		
 		</header>
+		
+		
 		
 		<contant class="login-container">
 		<form action="/update/modify" method="post">
@@ -27,6 +30,11 @@
 			<input id="memail"type="text" class="text" name="memail" placeholder="이메일" />
 			 <input type="hidden" class="text" name="social" value= 0 />
 			<button id="loginBtn" class="loginBtn" type="submit">수정하기</button>
+			
+		</form>
+		<form action="/update/delete" method="post">
+		<input type="hidden" name="mid" th:value="${#authentication.principal.mid}"/>
+			<button id="DeleteBtn" class="loginBtn" type="submit">삭제하기</button>
 		</form>
 	</div>
 	<script type="text/javascript">
@@ -44,6 +52,8 @@
 									.querySelector(".loginBtn").style.backgroundColor = "blue")
 									: 0;
 						});
+		
+		
 	</script>
 </body>
 </html>

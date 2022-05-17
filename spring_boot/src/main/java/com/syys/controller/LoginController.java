@@ -1,5 +1,6 @@
 package com.syys.controller;
 
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -25,13 +26,13 @@ public class LoginController {
 		log.info(authMemberDTO);
 	}
 
-	// @PreAuthorize("hasRole='ADMIN'")
+	// 
 	@GetMapping("/admin") // 관리자 권한이 있는 사용자만이 접근할 수 있다.
 	public void Admin() {
 		log.info("Admin.....");
 
 	}
-
+	@PreAuthorize("hasRole='USER'")
 	@GetMapping("/login")
 	public void login() {
 		log.info("usual_login......");
