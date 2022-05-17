@@ -20,12 +20,13 @@
 <body>
 <div class="main-container">
 <!-- 게시판 로고 -->
-		
+<div th:text="${#authentication.name}"></div>님의 라면 스타그램
 		<header class="logo">
 			<div>
 				<div><span th:text="${mid}"></span><small> 님의 라면스타그램</small>
 				<img id='addBoardBtn' src="/images/add.png" width="30px" alt="작성" style="float:right;"></div>
 				<img class="logoPicture" src="/images/logo_text.png" alt="인스타 로고" />
+				<a href="/logout">Logout</a>
 			</div>
 		</header>
 		<!--게시글 목록 시작 -->
