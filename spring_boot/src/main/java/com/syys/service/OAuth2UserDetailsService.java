@@ -3,6 +3,8 @@ package com.syys.service;
 import lombok.extern.log4j.Log4j2;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserService;
 import org.springframework.security.oauth2.client.userinfo.OAuth2UserRequest;
@@ -10,7 +12,11 @@ import org.springframework.security.oauth2.core.OAuth2AuthenticationException;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Service;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.crypto.password.PasswordEncoder;
+
+import com.syys.dto.AuthMemberDTO;
 import com.syys.entity.Member;
 import com.syys.entity.Member2;
 import com.syys.entity.MemberRole;
@@ -41,7 +47,7 @@ public class OAuth2UserDetailsService extends DefaultOAuth2UserService{
         // 가입한적이 없다면 추가 패스워드 1111 이름은 이메일주소
         Member2 member2 = new Member2();
         member2.setMid(mid);
-        
+        member2.setMname(mid);
         member2.setMpassword(passwordEncoder.encode("1111"));
         member2.setSocial(1);
         // 디비에 ClubMember 행저장
@@ -83,11 +89,22 @@ public class OAuth2UserDetailsService extends DefaultOAuth2UserService{
        } // end if
        log.info("구글 인증 확인");
        log.info("mid : " + mid);
-
+Member2 result = null;
        try {
-           Member2 member2 = saveSocialMember(mid);
+    	   result = saveSocialMember(mid);
            log.info("---saveSocialMember--");
-           log.info(member2);
+           log.info(result);
+           List<GrantedAuthority> authorities = new ArrayList<>();
+   			authorities.add(new SimpleGrantedAuthority(result.getRole_set()));
+           AuthMemberDTO authMemberDTO = new AuthMemberDTO(result.getMid(), result.getMpassword(),result.getMname(),result.getMemail(),
+					result.getSocial(), authorities);
+			authMemberDTO.setMid(result.getMid());
+			authMemberDTO.setMname(result.getMname());
+			authMemberDTO.setSocial(result.getSocial());
+			authMemberDTO.setMpassword(result.getMpassword());
+			log.info("authMemberDTO : "+authMemberDTO);
+			log.info(authMemberDTO.getAuthorities().toString());
+			return authMemberDTO;
        } catch (SQLException e) {
            log.info("saveSocialMember error");
            log.info("에러 ");

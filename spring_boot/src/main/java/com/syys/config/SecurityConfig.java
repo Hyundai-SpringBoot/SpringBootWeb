@@ -8,7 +8,7 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
-import com.syys.securityhandler.LoginSuccessHandler;
+
 
 import lombok.extern.log4j.Log4j2;
 
@@ -17,10 +17,7 @@ import lombok.extern.log4j.Log4j2;
 @Log4j2
 
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
-	@Bean
-    public LoginSuccessHandler successHandler(){
-        return new LoginSuccessHandler(passwordEncoder());
-    }//end CLu..   
+	 
 
 	@Bean
 	PasswordEncoder passwordEncoder() {

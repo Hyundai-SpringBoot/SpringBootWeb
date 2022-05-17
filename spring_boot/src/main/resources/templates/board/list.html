@@ -20,13 +20,14 @@
 <body>
 <div class="main-container">
 <!-- 게시판 로고 -->
-<div th:text="${#authentication.name}"></div>님의 라면 스타그램
+<div th:text="${#authentication.principal.name}"></div>님의 라면 스타그램
 		<header class="logo">
 			<div>
 				<div style="float:right;"><span th:text="${mid}"></span><small> 님, 환영합니다</small>
 				<img id='addBoardBtn' src="/images/add.png" width="30px" alt="작성"></div>
 				<img class="logoPicture" src="/images/logo_text.png" alt="인스타 로고" />
 				<a href="/logout">Logout</a>
+				<a href="/update">회원정보수정</a>
 			</div>
 		</header>
 		<!--게시글 목록 시작 -->
@@ -119,7 +120,7 @@
 	<script th:inline="javascript">
 	//로그인한 유저의 아이디 저장
 	/*<![CDATA[*/
-	var loginUser = /*[[ ${mid} ]]*/;
+	var loginUser = /*[[ ${mid} ]]*/
 	/*]]*/
 	console.log(loginUser);
 	var boardlist = $(".boardlist");
