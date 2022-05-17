@@ -21,6 +21,11 @@ body {
  
 }
 
+.icons img{
+	margin-left: 25px;
+	margin-right: 26px;
+}
+
 .boardlist li{
 	background-color:#fafafa;
 	list-style:none;
@@ -37,4 +42,9 @@ body {
 }
 .pagination ul{
 	margin-top:0px;
+}
+.logoPicture{
+	text-align:center;
+	margin-left:auto;
+	margin-right:auto;
 }

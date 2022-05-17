@@ -22,12 +22,17 @@
 <!-- 게시판 로고 -->
 
 		<header class="logo">
-			<div>
-				<div><span th:text="${mid}"></span><small> 님의 라면스타그램</small>
-				<img id='addBoardBtn' src="/images/add.png" width="30px" alt="작성" style="float:right;"></div>
+			<div style="color:#fc5f04;">
+				<span th:text="${mid}"></span><small> 님의 라면스타그램</small>
+				<div class="icons">
+				<a href="/logout"><img src="/images/logout.png" alt="logout" width="30px"/></a>
+				
+				<a href="/update"><img src="/images/update.png" width="35px" alt="수정"/></a>
+				<img id='addBoardBtn' src="/images/add.png" width="30px" alt="작성"/>
+				</div>
 				<img class="logoPicture" src="/images/logo_text.png" alt="인스타 로고" />
-				<a href="/logout">Logout</a>
-				<a href="/update">회원정보수정</a>
+				
+				
 			</div>
 		</header>
 		<!--게시글 목록 시작 -->
