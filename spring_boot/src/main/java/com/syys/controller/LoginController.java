@@ -32,7 +32,7 @@ public class LoginController {
 		log.info("Admin.....");
 
 	}
-	@PreAuthorize("hasRole='USER'")
+
 	@GetMapping("/login")
 	public void login() {
 		log.info("usual_login......");
