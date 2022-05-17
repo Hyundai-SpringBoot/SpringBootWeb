@@ -1,4 +1,9 @@
 package com.syys.controller;
+/*************************************************************
+파일명: ModifyController.java
+기능: 로그인 컨트롤러
+작성자: 이승연
+*************************************************************/
 import java.sql.SQLException;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,12 +33,12 @@ public class ModifyController {
 	
 	
 	@GetMapping("")
-	public String update_view(){
+	public String update_view(){ //수정 입력 양식 html 로 이동
 		log.info("update_view");
 		return "login/Modify";
 	}
 	
-	@PostMapping("/modify")
+	@PostMapping("/modify") //회원정보 수정
 	public String update(Member member) throws Exception{
 		log.info("이승연"+member);
 		
@@ -41,7 +46,7 @@ public class ModifyController {
 		return "redirect:/logout";
 	}
 	
-	@PostMapping("/delete")
+	@PostMapping("/delete") //회원정보 삭제, 삭제 후에 로그아웃 
 	public String delete(String mid) throws SQLException {
 		log.info("진영서"+mid);
 		service2.delete(mid);
