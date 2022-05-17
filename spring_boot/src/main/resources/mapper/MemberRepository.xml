@@ -21,5 +21,14 @@
 	on c1.mid = c2.mid
 	where c1.mid = #{mid} and c1.social=#{social}
 	</select>
+	
+	<update id="updateMember" >
+		update member set memail=#{memail}, mname=#{mname}, mpassword=#{mpassword}, social=#{social}
+		where mid=#{mid}
+	</update>
+	
+	<delete id="delete">
+		delete from member where mid={#mid}
+	</delete>
 </mapper>
 

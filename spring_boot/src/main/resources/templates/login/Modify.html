@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="ko"
+ xmlns:th=http://www.thymeleaf.org
+ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width" />
+<title>repl.it</title>
+<link href="/css/login.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+	<div class="main-container">
+		<header class="logo">
+			<div>
+				<img class="logoPicture" src="/images/logo_text.png" alt="인스타 로고" />
+			</div>
+		</header>
+		
+		회원 정보
+		<contant class="login-container">
+		<form action="/update/modify" method="post">
+			<input id="mid" type="id" class="id" name="mid" th:value="${#authentication.principal.mid}"/>
+			<input id="mpassword" type="password" class="password" name="mpassword" placeholder="비밀번호" />
+			<input id="mname" type="text" class="text" name="mname"
+				placeholder="이름" /> 
+			<input id="memail"type="text" class="text" name="memail" placeholder="이메일" />
+			 <input type="hidden" class="text" name="social" value= 0 />
+			<button id="loginBtn" class="loginBtn" type="submit">수정하기</button>
+		</form>
+	</div>
+	<script type="text/javascript">
+		const loginButton = document.querySelector(".loginBtn");
+
+		loginButton
+				.addEventListener(
+						"click",
+						function() {
+							const loginId = document.querySelector("#mid").value;
+							const loginPassword = document
+									.querySelector("#mpassword").value;
+
+							loginId && loginPassword ? (document
+									.querySelector(".loginBtn").style.backgroundColor = "blue")
+									: 0;
+						});
+	</script>
+</body>
+</html>

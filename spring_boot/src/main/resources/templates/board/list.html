@@ -27,6 +27,7 @@
 				<img id='addBoardBtn' src="/images/add.png" width="30px" alt="작성" style="float:right;"></div>
 				<img class="logoPicture" src="/images/logo_text.png" alt="인스타 로고" />
 				<a href="/logout">Logout</a>
+				<a href="/update">회원정보수정</a>
 			</div>
 		</header>
 		<!--게시글 목록 시작 -->
@@ -119,7 +120,7 @@
 	<script th:inline="javascript">
 	//로그인한 유저의 아이디 저장
 	/*<![CDATA[*/
-	var loginUser = /*[[ ${mid} ]]*/;
+	var loginUser = /*[[ ${mid} ]]*/
 	/*]]*/
 	console.log(loginUser);
 	var boardlist = $(".boardlist");
