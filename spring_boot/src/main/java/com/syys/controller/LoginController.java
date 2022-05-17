@@ -1,6 +1,10 @@
 package com.syys.controller;
+/*************************************************************
+파일명: LoginController.java
+기능: 로그인 컨트롤러
+작성자: 이승연
+*************************************************************/
 
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -26,14 +30,14 @@ public class LoginController {
 		log.info(authMemberDTO);
 	}
 
-	// 
+	
 	@GetMapping("/admin") // 관리자 권한이 있는 사용자만이 접근할 수 있다.
 	public void Admin() {
 		log.info("Admin.....");
 
 	}
-	@PreAuthorize("hasRole='USER'")
-	@GetMapping("/login")
+	
+	@GetMapping("/login") //로그인 페이지 이동
 	public void login() {
 		log.info("usual_login......");
 	}

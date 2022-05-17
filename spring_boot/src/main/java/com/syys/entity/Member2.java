@@ -1,4 +1,9 @@
 package com.syys.entity;
+/*************************************************************
+파일명: Member2.java
+기능: 두 개의 테이블을 조인 한 후의 결과를 받는 VO
+작성자: 이승연
+*************************************************************/
 import java.sql.Date;
 import lombok.AllArgsConstructor;
 import lombok.Data;

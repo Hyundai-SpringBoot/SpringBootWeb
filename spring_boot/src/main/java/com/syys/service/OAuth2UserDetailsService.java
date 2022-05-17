@@ -1,5 +1,9 @@
 package com.syys.service;
-
+/*************************************************************
+파일명: OAuth2UserDetailsService.java
+기능: 소셜 로그인 기능 구현
+작성자: 이승연
+*************************************************************/
 import lombok.extern.log4j.Log4j2;
 
 import java.sql.SQLException;
@@ -35,34 +39,34 @@ public class OAuth2UserDetailsService extends DefaultOAuth2UserService{
 	private Member2 saveSocialMember(String mid) throws SQLException {
         
 		log.info("saveSocialMember  시작");
-        // 기본에 동일한 이메일로 가입한 회원인지 확인
+        // 이메일 중복확인
         Member2 result = memberRepository.findById(mid, 1);
         log.info("result : "+ result);
-        // 기본 회원이면 정보 반환
+        // 기본 회원이면 해당 정보 반환
         if (!(result == null)) {
             log.info("기존 회원");
             return  result;
-        } // end if
+        }
  
-        // 가입한적이 없다면 추가 패스워드 1111 이름은 이메일주소
+        // 패스워드 1111 이름은 이메일주소
         Member2 member2 = new Member2();
         member2.setMid(mid);
         member2.setMname(mid);
         member2.setMpassword(passwordEncoder.encode("1111"));
         member2.setSocial(1);
-        // 디비에 ClubMember 행저장
+        // Member2 저장
         memberRepository.insertMember(member2);
  
         RoleSet role = new RoleSet();
         role.setMid(mid);
         role.setRole_set(MemberRole.USER.toString());
-        // 디비에 ClubRoleSet 행저장
+        // RoleSet 저장
         memberRepository.insertRoleSet(role);
  
         result = memberRepository.findById(mid, 1);
-        // 추가된 정보 반환
+        
         return result;
-    }// end saveSocialMember..
+    }
 
    @Override
    public OAuth2User loadUser(OAuth2UserRequest userRequest)
@@ -71,11 +75,11 @@ public class OAuth2UserDetailsService extends DefaultOAuth2UserService{
        log.info("userRequest" + userRequest);
 
        String clienName = userRequest.getClientRegistration().getClientName();
-       // 인증 제공자 출력
+       // 인증  출력
        log.info("clienName" + clienName);
        log.info(userRequest.getAdditionalParameters());
 
-       // 사용자 정보 가져오기 구글에서 허용한 API 범위
+       // 사용자 정보 가져오기 
        OAuth2User oAuth2User = super.loadUser(userRequest);
        log.info("======oAuth2User===============");
        oAuth2User.getAttributes().forEach((k, v) -> {
@@ -86,7 +90,7 @@ public class OAuth2UserDetailsService extends DefaultOAuth2UserService{
        String mid = null;
        if (clienName.equals("Google")) {// 구글 인증 확인
            mid = oAuth2User.getAttribute("email");
-       } // end if
+       } // end 
        log.info("구글 인증 확인");
        log.info("mid : " + mid);
 Member2 result = null;
@@ -109,11 +113,11 @@ Member2 result = null;
            log.info("saveSocialMember error");
            log.info("에러 ");
            log.info(e.toString());
-       }//end try
+       }//end 
 
-       // 구글에서 정보 가져온 oAuth2User
+       
        return oAuth2User;
-   }// end load..
+   }
 
-}// end class
+}// end 
 

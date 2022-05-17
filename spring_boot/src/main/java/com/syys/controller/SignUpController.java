@@ -1,5 +1,9 @@
 package com.syys.controller;
-
+/*************************************************************
+파일명: SignUpController.java
+기능: 회원가입 컨트롤러 
+작성자: 이승연
+*************************************************************/
 import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Map;
@@ -24,12 +28,12 @@ public class SignUpController {
 	@Autowired
 	signUpService service;
 
-	@GetMapping("")
+	@GetMapping("") //회원 가입 폼으로 이동
 	public String singUp() {
 		return "login/signUp";
 	}
 
-	@PostMapping("")
+	@PostMapping("") //회원 가입 데이터 입력 후, DB연동 , Json으로 반환해서 Ajax로 데이터 처리
 	@ResponseBody
 	public Map<String, Object> data(@RequestParam("mid") String mid, @RequestParam("mpassword") String password,
 			@RequestParam("mname") String name, @RequestParam("memail") String email) {

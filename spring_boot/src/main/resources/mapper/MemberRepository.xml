@@ -1,19 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?> 
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd"> 
+<!-- 파일명: MemberRepository.xml 
+기능: 회원정보 CRUD Mapper 
+작성자: 이승연 -->
 <mapper namespace="com.syys.mapper.MemberRepository">
+	<!-- 회원가입 -->
 	<insert id="insertMember"> 
 	insert into member(mid,mpassword,mname,memail,social) 
 	values(#{mid},#{mpassword},#{mname, jdbcType=VARCHAR},#{memail, jdbcType=VARCHAR},#{social}) 
 	</insert> 
-	
-	<insert id="insertRoleSet" > 
+	<!-- 회원권한삽입 -->
+	<insert id="insertRoleSet"> 
 	insert into role_set 
 	(mid,role_set) 
 	values(#{mid},#{role_set}) 
 	</insert> 
 	
-	
+	<!--두개의 테이블을 조인-->
 	<select id="findById" resultType="com.syys.entity.Member2">
 	select c1.mid,c1.mpassword,c1.mname,c1.memail,c1.social,c2.role_set
 	from
@@ -21,12 +25,12 @@
 	on c1.mid = c2.mid
 	where c1.mid = #{mid} and c1.social=#{social}
 	</select>
-	
+	<!-- 회원정보 수정 -->
 	<update id="updateMember" >
 		update member set memail=#{memail}, mname=#{mname}, mpassword=#{mpassword}, social=#{social}
 		where mid=#{mid}
 	</update>
-	
+	<!-- 회원정보 삭제 -->
 	<delete id="delete">
 		delete from member where mid=#{mid}
 	</delete>
