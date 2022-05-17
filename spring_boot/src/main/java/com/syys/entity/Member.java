@@ -1,9 +1,10 @@
-package com.syys.entity;
 /*************************************************************
 파일명: Member.java
 기능: Member 테이블 과 같다.
 작성자: 이승연
 *************************************************************/
+package com.syys.entity;
+
 import java.io.Serializable;
 import java.sql.Date;
 

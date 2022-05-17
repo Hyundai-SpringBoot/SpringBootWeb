@@ -1,9 +1,10 @@
-package com.syys.service;
 /*************************************************************
 파일명: UserDetailService.java
 기능: 일반 사용자 로그인 서비스 (소셜로그인 제외)
 작성자: 이승연
 *************************************************************/
+package com.syys.service;
+
 
 import java.sql.SQLException;
 import java.util.ArrayList;

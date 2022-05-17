@@ -1,9 +1,10 @@
-package com.syys.service;
 /*************************************************************
 파일명: OAuth2UserDetailsService.java
 기능: 소셜 로그인 기능 구현
 작성자: 이승연
 *************************************************************/
+package com.syys.service;
+
 import lombok.extern.log4j.Log4j2;
 
 import java.sql.SQLException;

@@ -1,9 +1,10 @@
-package com.syys.service;
 /*************************************************************
 파일명: DeleteServiceImpl.java
 기능: 회원정보 삭제 서비스 구현
 작성자: 이승연
 *************************************************************/
+package com.syys.service;
+
 import java.sql.SQLException;
 
 import org.springframework.beans.factory.annotation.Autowired;

@@ -1,9 +1,10 @@
-package com.syys.mapper;
 /*************************************************************
 파일명: MemberRepository.java
 기능: Member Mapper의 역할을 담당한다.
 작성자: 이승연
 *************************************************************/
+package com.syys.mapper;
+
 import java.sql.SQLException;
 
 import org.apache.ibatis.annotations.Mapper;

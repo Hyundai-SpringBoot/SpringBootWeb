@@ -1,9 +1,10 @@
-package com.syys.controller;
 /*************************************************************
 파일명: SignUpController.java
 기능: 회원가입 컨트롤러 
 작성자: 이승연
 *************************************************************/
+package com.syys.controller;
+
 import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Map;

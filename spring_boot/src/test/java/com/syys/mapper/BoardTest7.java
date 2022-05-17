@@ -1,8 +1,9 @@
-package com.syys.mapper;
 /*************************************************************
 파일명: BoardTest7.java
 작성자: 진영서
 *************************************************************/
+package com.syys.mapper;
+
 
 
 import org.junit.jupiter.api.Test;

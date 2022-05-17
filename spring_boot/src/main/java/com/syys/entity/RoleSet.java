@@ -1,9 +1,10 @@
-package com.syys.entity;
 /*************************************************************
 파일명: RoleSet.java
 기능: RoleSet 테이블 과 같은 VO
 작성자: 이승연
 *************************************************************/
+package com.syys.entity;
+
 import java.io.Serializable;
 
 import lombok.AllArgsConstructor;

@@ -1,9 +1,10 @@
-package com.syys.controller;
 /*************************************************************
 파일명: LoginController.java
 기능: 로그인 컨트롤러
 작성자: 이승연
 *************************************************************/
+package com.syys.controller;
+
 
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;

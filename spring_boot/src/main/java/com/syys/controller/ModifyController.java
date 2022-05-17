@@ -1,9 +1,10 @@
-package com.syys.controller;
 /*************************************************************
 파일명: ModifyController.java
-기능: 로그인 컨트롤러
+기능: 수정/삭제 컨트롤러
 작성자: 이승연
 *************************************************************/
+package com.syys.controller;
+
 import java.sql.SQLException;
 
 import org.springframework.beans.factory.annotation.Autowired;

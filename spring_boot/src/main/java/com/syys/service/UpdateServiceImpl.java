@@ -1,9 +1,10 @@
-package com.syys.service;
 /*************************************************************
 파일명: UpdateServiceImpl.java
 기능: 수정 서비스 기능 구현
 작성자: 이승연
 *************************************************************/
+package com.syys.service;
+
 import java.sql.SQLException;
 
 import org.springframework.beans.factory.annotation.Autowired;

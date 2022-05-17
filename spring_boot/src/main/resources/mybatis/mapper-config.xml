@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN" "http://mybatis.org/dtd/mybatis-3-config.dtd">
- 
+<!-- 파일명: mapper-config.xml 
+기능: com.syys.domain의 alias 설정
+작성자: 진영서 --> 
 <configuration>
     <typeAliases>
         <typeAlias type="com.syys.domain.BoardVO" alias="board"/>

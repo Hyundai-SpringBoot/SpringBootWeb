@@ -1,9 +1,10 @@
-package com.syys.dto;
 /*************************************************************
 파일명: AuthMemberDTO.java
 기능: 멤버에 권한 설정하는 DTO
 작성자: 이승연
 *************************************************************/
+package com.syys.dto;
+
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
