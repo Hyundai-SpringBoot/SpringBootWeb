@@ -37,11 +37,6 @@ public class HomeController {
 	@RequestMapping("/board")
     public String home(@RequestParam(defaultValue = "1") int pageNo, 
     		Principal principal, Model model) {
-		if(principal==null) {
-			//로그인 하지 않은 경우 로그인 페이지로 리다이렉
-			return "redirect:/login/login";
-			
-		}
         log.info("home 실행");
         log.info("pageNo="+pageNo);
         log.info("principal"+principal.getName());

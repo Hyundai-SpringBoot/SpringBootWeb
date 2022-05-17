@@ -40,7 +40,7 @@ public class UserDetailService implements UserDetailsService{
 		log.info(result.getRole_set().toString());
 		
 		List<GrantedAuthority> authorities = new ArrayList<>();
-		authorities.add(new SimpleGrantedAuthority(result.getRole_set()));
+		authorities.add(new SimpleGrantedAuthority("ROLE_"+result.getRole_set()));
 		
 		AuthMemberDTO authMemberDTO = new AuthMemberDTO(result.getMid(), result.getMpassword(),result.getMname(),result.getMemail(),
 														result.getSocial(), authorities);
@@ -48,6 +48,7 @@ public class UserDetailService implements UserDetailsService{
 		authMemberDTO.setMname(result.getMname());
 		authMemberDTO.setSocial(result.getSocial());
 		authMemberDTO.setMpassword(result.getMpassword());
+	
 		log.info("authMemberDTO : "+authMemberDTO);
 		log.info(authMemberDTO.getAuthorities().toString());
 		return authMemberDTO;

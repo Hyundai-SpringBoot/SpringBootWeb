@@ -95,7 +95,7 @@ Member2 result = null;
            log.info("---saveSocialMember--");
            log.info(result);
            List<GrantedAuthority> authorities = new ArrayList<>();
-   			authorities.add(new SimpleGrantedAuthority(result.getRole_set()));
+   			authorities.add(new SimpleGrantedAuthority("ROLE_"+result.getRole_set()));
            AuthMemberDTO authMemberDTO = new AuthMemberDTO(result.getMid(), result.getMpassword(),result.getMname(),result.getMemail(),
 					result.getSocial(), authorities);
 			authMemberDTO.setMid(result.getMid());
